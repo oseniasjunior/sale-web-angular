@@ -1,0 +1,19 @@
+<p>LISTA DE DEPARTAMENTOS</p>
+
+<table style="border-style: double">
+  <tr>
+    <th>Código</th>
+    <th>Nome</th>
+    <th>Criado em</th>
+    <th>Modificado em</th>
+    <th>Ativo</th>
+  </tr>
+  <tr *ngFor="let d of departmentList">
+    <td> {{ d.id }} </td>
+    <td> {{ d.name }} </td>
+    <td> {{ d.created_at }}</td>
+    <td> {{ d.modified_at }} </td>
+    <td> {{ d.active }} </td>
+  </tr>
+</table>
+

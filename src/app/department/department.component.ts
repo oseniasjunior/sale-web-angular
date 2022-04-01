@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {DepartmentService} from "../../services/department.service";
 
 interface Department {
   id: number;
@@ -17,7 +17,7 @@ interface Department {
 export class DepartmentComponent implements OnInit {
   departmentList: Department[] = [];
 
-  constructor(private http: HttpClient) {
+  constructor(private service: DepartmentService) {
   }
 
   ngOnInit(): void {
@@ -25,10 +25,7 @@ export class DepartmentComponent implements OnInit {
   }
 
   public getAll(): void {
-    this.http.get<Department[]>("http://127.0.0.1:8000/sale/core/department/")
-      .subscribe((response) => {
-        this.departmentList = response;
-      });
+    this.service.getAll().subscribe(response => this.departmentList = response);
   }
 
 }

@@ -16,7 +16,13 @@ export class DepartmentService {
 
   public getAll(): Observable<Department[]> {
     return this.http.get<Department[]>(this.fullUrl).pipe(
-      catchError(ex => from([]))
+      catchError(() => from([]))
+    );
+  }
+
+  public save(department: Department): Observable<Department> {
+    return this.http.post<Department>(this.fullUrl, department).pipe(
+      catchError(() => from([]))
     );
   }
 

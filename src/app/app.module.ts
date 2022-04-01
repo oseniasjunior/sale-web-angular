@@ -8,12 +8,14 @@ import {DepartmentComponent} from './department/department.component';
 import {FruitComponent} from './fruit/fruit.component';
 import {HttpClientModule} from "@angular/common/http";
 import {DepartmentService} from "../services/department.service";
+import {DepartmentItemComponent} from "./department/department-item/department-item.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     DepartmentComponent,
-    FruitComponent
+    FruitComponent,
+    DepartmentItemComponent
   ],
   imports: [
     BrowserModule,

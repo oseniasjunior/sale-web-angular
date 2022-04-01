@@ -1,23 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DepartmentService} from "../../services/department.service";
-
-interface Department {
-  id: number;
-  name: string;
-  created_at: Date;
-  modified_at: Date;
-  active: boolean;
-}
+import {Department} from "../../models/department";
+import {Subject, takeUntil} from "rxjs";
+import {NavigationExtras, Router} from "@angular/router";
+import {Utils} from "../utils/utils";
 
 @Component({
   selector: 'app-department',
   templateUrl: './department.component.html',
   styleUrls: ['./department.component.scss']
 })
-export class DepartmentComponent implements OnInit {
-  departmentList: Department[] = [];
+export class DepartmentComponent implements OnInit, OnDestroy {
+  public departmentList: Department[] = [];
+  public unsubscribe = new Subject();
+  public navigate = Utils.navigate;
 
-  constructor(private service: DepartmentService) {
+  constructor(private service: DepartmentService, public router: Router) {
   }
 
   ngOnInit(): void {
@@ -25,7 +23,14 @@ export class DepartmentComponent implements OnInit {
   }
 
   public getAll(): void {
-    this.service.getAll().subscribe(response => this.departmentList = response);
+    this.service.getAll().pipe(
+      takeUntil(this.unsubscribe)
+    ).subscribe(response => this.departmentList = response);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next({});
+    this.unsubscribe.complete();
   }
 
 }

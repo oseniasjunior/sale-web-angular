@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DepartmentService} from "../../../services/department.service";
 import {Department} from "../../../models/department";
-import {Subject, takeUntil} from "rxjs";
+import {map, Subject, take, takeUntil} from "rxjs";
 import {Utils} from "../../utils/utils";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 @Component({
   selector: 'app-department-item',
@@ -15,20 +15,42 @@ export class DepartmentItemComponent implements OnInit, OnDestroy {
   public unsubscribe = new Subject();
   public navigate = Utils.navigate;
 
-  constructor(private service: DepartmentService, public router: Router) {
+  constructor(private service: DepartmentService, public router: Router, public activatedRoute: ActivatedRoute) {
 
   }
 
   ngOnInit(): void {
+    this.getParameters();
+  }
+
+  public getParameters(): void {
+    this.activatedRoute.params.pipe(
+      take(1),
+      takeUntil(this.unsubscribe),
+      map((params: Params) => params["action"])
+    ).subscribe(value => {
+      if (value !== "new") {
+        this.getById(Number(value));
+      }
+    });
   }
 
   public save(): void {
-    this.service.save(this.department).pipe(
+    if (this.department.id) {
+      this.service.update(this.department, this.department.id).pipe(
+        takeUntil(this.unsubscribe)
+      ).subscribe(response => this.navigate('department', this.router));
+    } else {
+      this.service.save(this.department).pipe(
+        takeUntil(this.unsubscribe)
+      ).subscribe(response => this.navigate('department', this.router));
+    }
+  }
+
+  public getById(id: number): void {
+    this.service.getById(id).pipe(
       takeUntil(this.unsubscribe)
-    ).subscribe(response => {
-      console.log(response);
-      this.navigate('department', this.router);
-    });
+    ).subscribe(response => this.department = response);
   }
 
   ngOnDestroy(): void {

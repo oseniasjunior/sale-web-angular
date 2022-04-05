@@ -28,6 +28,10 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     ).subscribe(response => this.departmentList = response);
   }
 
+  public edit(id: number): void {
+    this.navigate(`department/${id}`, this.router);
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe.next({});
     this.unsubscribe.complete();

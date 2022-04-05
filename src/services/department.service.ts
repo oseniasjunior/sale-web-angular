@@ -20,8 +20,22 @@ export class DepartmentService {
     );
   }
 
+  public getById(id: number): Observable<Department> {
+    const fullUrl = `${this.fullUrl}${id}/`;
+    return this.http.get<Department>(fullUrl).pipe(
+      catchError(() => from([]))
+    );
+  }
+
   public save(department: Department): Observable<Department> {
     return this.http.post<Department>(this.fullUrl, department).pipe(
+      catchError(() => from([]))
+    );
+  }
+
+  public update(department: Department | {}, id: number): Observable<Department> {
+    const fullUrl = `${this.fullUrl}${id}/`;
+    return this.http.patch<Department>(fullUrl, department).pipe(
       catchError(() => from([]))
     );
   }

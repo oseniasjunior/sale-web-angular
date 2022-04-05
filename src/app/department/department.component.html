@@ -10,6 +10,7 @@
     <th>Criado em</th>
     <th>Modificado em</th>
     <th>Ativo</th>
+    <th>Editar</th>
   </tr>
   <tr *ngFor="let d of departmentList">
     <td> {{ d.id }} </td>
@@ -17,6 +18,9 @@
     <td> {{ d.created_at }}</td>
     <td> {{ d.modified_at }} </td>
     <td> {{ d.active }} </td>
+    <td>
+      <button (click)="edit(d.id)">Editar</button>
+    </td>
   </tr>
 </table>
 

@@ -1,10 +1,28 @@
-<form>
-  <mat-form-field appearance="fill">
-    <mat-label>Nome</mat-label>
-    <input matInput type="text" [(ngModel)]="department.name" [ngModelOptions]="{standalone: true}"/>
-  </mat-form-field>
-  <div>
-    <button mat-button color="accent" (click)="navigate('department', router)">VOLTAR</button>
-    <button mat-button color="primary" (click)="save()">SALVAR</button>
-  </div>
-</form>
+<div fxLayout="column" fxLayoutAlign="space-around strech" fxLayoutGap="10px">
+  <mat-card>
+    <form [formGroup]="group">
+      <div fxLayout="column" fxLayoutAlign="space-evently stretch" fxLayoutGap="10px">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutAlign.xs="start stretch"
+             fxLayoutGap="10px">
+
+          <mat-form-field appearance="outline" fxFlex>
+            <mat-label>Nome</mat-label>
+            <input matInput type="text" formControlName="name"/>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex *ngIf="group.controls['age']">
+            <mat-label>Age</mat-label>
+            <input matInput type="text" formControlName="age"/>
+          </mat-form-field>
+
+        </div>
+
+      </div>
+      <mat-action-row fxLayoutAlign="end center" fxLayoutGap="10px">
+        <button mat-button mat-raised-button color="warn" (click)="navigate('department', router)">VOLTAR</button>
+        <button mat-button mat-raised-button color="primary" [disabled]="!group.valid" (click)="save()">SALVAR
+        </button>
+      </mat-action-row>
+    </form>
+  </mat-card>
+</div>

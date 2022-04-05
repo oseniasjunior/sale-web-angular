@@ -1,9 +1,25 @@
-<div>
-  <div><a [routerLink]="['fruit']">Frutas</a></div>
-  <div><a [routerLink]="['department']">Departamento</a></div>
-  <div><a [routerLink]="['marital_status']">Estado civil</a></div>
-</div>
-<br><br>
-<div>
-  <router-outlet></router-outlet>
+<div class="main" fxLayout="column" fxLayoutAlign="start stretch">
+
+  <mat-toolbar>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <span style="color: green">BitShop</span>
+
+      <button mat-button [matMenuTriggerFor]="menu">Cadastros básicos</button>
+      <mat-menu #menu="matMenu">
+        <button [routerLink]="['department']" mat-menu-item>Departamento</button>
+        <button [routerLink]="['marital_status']" mat-menu-item>Estado civil</button>
+      </mat-menu>
+
+    </div>
+  </mat-toolbar>
+
+  <mat-toolbar class="mat-elevation-z2">
+    <mat-toolbar-row>
+      <span style="color: orangered">{{title}}</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="container" fxFlex>
+    <router-outlet></router-outlet>
+  </div>
 </div>

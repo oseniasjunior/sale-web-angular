@@ -4,6 +4,8 @@ import {map, Subject, take, takeUntil} from "rxjs";
 import {Utils} from "../../utils/utils";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {BaseService} from "../../../services/base.service";
+import {MainService} from "../../../services/main.service";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-marital-status-item',
@@ -11,17 +13,45 @@ import {BaseService} from "../../../services/base.service";
   styleUrls: ['./department-item.component.scss']
 })
 export class DepartmentItemComponent implements OnInit, OnDestroy {
-  public department = new Department();
+  public aObject = new Department();
   public unsubscribe = new Subject();
   public navigate = Utils.navigate;
-  public path = "department";
+  public group!: FormGroup;
 
-  constructor(private service: BaseService<Department>, public router: Router, public activatedRoute: ActivatedRoute) {
-
+  constructor(private service: BaseService<Department>,
+              public router: Router,
+              public activatedRoute: ActivatedRoute,
+              public mainService: MainService,
+              public fb: FormBuilder) {
+    this.mainService.title.next("CADASTRO / EDIÇÃO DE DEPARTAMENTO");
   }
 
   ngOnInit(): void {
+    this.createFormGroup();
     this.getParameters();
+    this.onChangeName();
+  }
+
+
+  public createFormGroup(): void {
+    this.group = this.fb.group({
+      name: [null, [Validators.required]],
+      age: [null, [Validators.required]]
+    });
+  }
+
+  public onChangeName(): void {
+    this.group.controls["name"].valueChanges.pipe(
+      takeUntil(this.unsubscribe)
+    ).subscribe(value => {
+      if (value === "ozzy") {
+        this.group.removeControl('age');
+      } else {
+        this.group.addControl('age', new FormControl(null, [Validators.required]))
+      }
+      this.group.clearValidators();
+      this.group.updateValueAndValidity();
+    });
   }
 
   public getParameters(): void {
@@ -37,21 +67,26 @@ export class DepartmentItemComponent implements OnInit, OnDestroy {
   }
 
   public save(): void {
-    if (this.department.id) {
-      this.service.update(this.department, this.department.id, this.path).pipe(
+    console.log(this.group.getRawValue());
+    Object.assign(this.aObject, this.group.getRawValue());
+    if (this.aObject.id) {
+      this.service.update(this.aObject, this.aObject.id, "department/").pipe(
         takeUntil(this.unsubscribe)
       ).subscribe(response => this.navigate('department', this.router));
     } else {
-      this.service.save(this.department, this.path).pipe(
+      this.service.save(this.aObject, "department").pipe(
         takeUntil(this.unsubscribe)
       ).subscribe(response => this.navigate('department', this.router));
     }
   }
 
   public getById(id: number): void {
-    this.service.getById(id, this.path).pipe(
+    this.service.getById(id, "department/").pipe(
       takeUntil(this.unsubscribe)
-    ).subscribe(response => this.department = response);
+    ).subscribe(response => {
+      this.aObject = response;
+      this.group.reset(this.aObject);
+    });
   }
 
   ngOnDestroy(): void {

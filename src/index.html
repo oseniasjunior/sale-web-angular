@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" style="height: 100%">
 <head>
   <meta charset="utf-8">
   <title>SaleWeb</title>
@@ -15,10 +15,24 @@
       margin: 0;
       height: 100%;
     }
+
+    .loading {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
   </style>
 </head>
 
 <body class="mat-typography" class="mat-body">
-<app-root></app-root>
+<app-root>
+  <div class="loading">
+
+  </div>
+</app-root>
 </body>
 </html>

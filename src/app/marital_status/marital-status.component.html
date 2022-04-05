@@ -1,0 +1,26 @@
+<p>LISTA DE DEPARTAMENTOS</p>
+
+<div>
+  <button (click)="navigate('marital_status/new', router)">ADICIONAR</button>
+</div>
+<table style="border-style: double">
+  <tr>
+    <th>Código</th>
+    <th>Nome</th>
+    <th>Criado em</th>
+    <th>Modificado em</th>
+    <th>Ativo</th>
+    <th>Editar</th>
+  </tr>
+  <tr *ngFor="let d of items">
+    <td> {{ d.id }} </td>
+    <td> {{ d.name }} </td>
+    <td> {{ d.created_at }}</td>
+    <td> {{ d.modified_at }} </td>
+    <td> {{ d.active }} </td>
+    <td>
+      <button (click)="edit(d.id)">Editar</button>
+    </td>
+  </tr>
+</table>
+

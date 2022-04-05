@@ -7,24 +7,36 @@ import {FormsModule} from "@angular/forms";
 import {DepartmentComponent} from './department/department.component';
 import {FruitComponent} from './fruit/fruit.component';
 import {HttpClientModule} from "@angular/common/http";
-import {DepartmentService} from "../services/department.service";
 import {DepartmentItemComponent} from "./department/department-item/department-item.component";
+import {BaseService} from "../services/base.service";
+import {MaritalStatusComponent} from "./marital_status/marital-status.component";
+import {MaritalStatusItemComponent} from "./marital_status/marital-status-item/marital-status-item.component";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
     AppComponent,
-    DepartmentComponent,
     FruitComponent,
-    DepartmentItemComponent
+    DepartmentComponent,
+    DepartmentItemComponent,
+    MaritalStatusComponent,
+    MaritalStatusItemComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
   ],
   providers: [
-    DepartmentService,
+    BaseService,
   ],
   bootstrap: [AppComponent]
 })

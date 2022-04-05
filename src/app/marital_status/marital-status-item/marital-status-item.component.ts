@@ -4,19 +4,20 @@ import {map, Subject, take, takeUntil} from "rxjs";
 import {Utils} from "../../utils/utils";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {BaseService} from "../../../services/base.service";
+import {MaritalStatus} from "../../../models/marital-status";
 
 @Component({
   selector: 'app-marital-status-item',
-  templateUrl: './department-item.component.html',
-  styleUrls: ['./department-item.component.scss']
+  templateUrl: './marital-status-item.component.html',
+  styleUrls: ['./marital-status-item.component.scss']
 })
-export class DepartmentItemComponent implements OnInit, OnDestroy {
-  public department = new Department();
+export class MaritalStatusItemComponent implements OnInit, OnDestroy {
+  public aObject = new MaritalStatus();
   public unsubscribe = new Subject();
   public navigate = Utils.navigate;
-  public path = "department";
+  public path = "marital_status/";
 
-  constructor(private service: BaseService<Department>, public router: Router, public activatedRoute: ActivatedRoute) {
+  constructor(private service: BaseService<MaritalStatus>, public router: Router, public activatedRoute: ActivatedRoute) {
 
   }
 
@@ -37,21 +38,21 @@ export class DepartmentItemComponent implements OnInit, OnDestroy {
   }
 
   public save(): void {
-    if (this.department.id) {
-      this.service.update(this.department, this.department.id, this.path).pipe(
+    if (this.aObject.id) {
+      this.service.update(this.aObject, this.aObject.id, this.path).pipe(
         takeUntil(this.unsubscribe)
-      ).subscribe(response => this.navigate('department', this.router));
+      ).subscribe(response => this.navigate('marital_status', this.router));
     } else {
-      this.service.save(this.department, this.path).pipe(
+      this.service.save(this.aObject, this.path).pipe(
         takeUntil(this.unsubscribe)
-      ).subscribe(response => this.navigate('department', this.router));
+      ).subscribe(response => this.navigate('marital_status', this.router));
     }
   }
 
   public getById(id: number): void {
     this.service.getById(id, this.path).pipe(
       takeUntil(this.unsubscribe)
-    ).subscribe(response => this.department = response);
+    ).subscribe(response => this.aObject = response);
   }
 
   ngOnDestroy(): void {

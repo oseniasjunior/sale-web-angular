@@ -1,10 +1,10 @@
-<div>
+<form>
+  <mat-form-field appearance="fill">
+    <mat-label>Nome</mat-label>
+    <input matInput type="text" [(ngModel)]="department.name" [ngModelOptions]="{standalone: true}"/>
+  </mat-form-field>
   <div>
-    <label>Nome</label>
-    <input type="text" [(ngModel)]="department.name"/>
+    <button mat-button color="accent" (click)="navigate('department', router)">VOLTAR</button>
+    <button mat-button color="primary" (click)="save()">SALVAR</button>
   </div>
-  <div>
-    <button (click)="navigate('department', router)">VOLTAR</button>
-    <button (click)="save()">SALVAR</button>
-  </div>
-</div>
+</form>

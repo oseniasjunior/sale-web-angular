@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="space-around strech" fxLayoutGap="10px">
   <mat-card>
-    <form [formGroup]="group">
+    <form [formGroup]="formGroup">
       <div fxLayout="column" fxLayoutAlign="space-evently stretch" fxLayoutGap="10px">
         <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutAlign.xs="start stretch"
              fxLayoutGap="10px">
@@ -10,7 +10,7 @@
             <input matInput type="text" formControlName="name"/>
           </mat-form-field>
 
-          <mat-form-field appearance="outline" fxFlex *ngIf="group.controls['age']">
+          <mat-form-field appearance="outline" fxFlex *ngIf="formGroup.controls['age']">
             <mat-label>Age</mat-label>
             <input matInput type="text" formControlName="age"/>
           </mat-form-field>
@@ -19,8 +19,9 @@
 
       </div>
       <mat-action-row fxLayoutAlign="end center" fxLayoutGap="10px">
-        <button mat-button mat-raised-button color="warn" (click)="navigate('department', router)">VOLTAR</button>
-        <button mat-button mat-raised-button color="primary" [disabled]="!group.valid" (click)="save()">SALVAR
+        <button mat-button mat-raised-button color="warn" (click)="goToPage('department')">VOLTAR</button>
+        <button mat-button mat-raised-button color="primary" [disabled]="!formGroup.valid" (click)="saveOrUpdate()">
+          SALVAR
         </button>
       </mat-action-row>
     </form>

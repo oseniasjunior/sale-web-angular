@@ -1,42 +1,20 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Department} from "../../models/department";
-import {Subject, takeUntil} from "rxjs";
-import {Router} from "@angular/router";
-import {Utils} from "../utils/utils";
-import {BaseService} from "../../services/base.service";
+import {Component, Injector, OnDestroy, OnInit} from '@angular/core';
 import {MaritalStatus} from "../../models/marital-status";
+import {BaseListComponent} from "../base-list.component";
+import {URLS} from "../utils/urls";
 
 @Component({
-  selector: 'app-department',
+  selector: 'app-marital-status',
   templateUrl: './marital-status.component.html',
   styleUrls: ['./marital-status.component.scss']
 })
-export class MaritalStatusComponent implements OnInit, OnDestroy {
-  public items: MaritalStatus[] = [];
-  public unsubscribe = new Subject();
-  public navigate = Utils.navigate;
-  public path = "marital_status";
+export class MaritalStatusComponent extends BaseListComponent<MaritalStatus> implements OnInit, OnDestroy {
 
-  constructor(private service: BaseService<MaritalStatus>, public router: Router) {
-  }
+  public displayedColumns = ["id", "name", "modified_at", "active", "actions"];
 
-  ngOnInit(): void {
-    this.getAll();
-  }
-
-  public getAll(): void {
-    this.service.getAll(this.path).pipe(
-      takeUntil(this.unsubscribe)
-    ).subscribe(response => this.items = response);
-  }
-
-  public edit(id: number): void {
-    this.navigate(`marital_status/${id}`, this.router);
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next({});
-    this.unsubscribe.complete();
+  constructor(public override injector: Injector) {
+    super(injector, {endpoint: URLS.MARITAL_STATUS});
+    this.mainService.title.next("ESTADO CIVIL");
   }
 
 }
